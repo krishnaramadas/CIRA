@@ -1,6 +1,6 @@
 # 🎯 CIRA — Cost Intelligence Response Assistant
 
-> A GCP cost intelligence platform powered by a custom MCP server — enabling conversational cost analysis, real-time anomaly detection, and month-end spend forecasting across GCP projects. No data dumps. No pipelines. Pure live API calls.
+> A GCP cost intelligence platform powered by a custom MCP server — combining a visual spend dashboard with an AI chat assistant for conversational cost analysis, anomaly detection, and month-end forecasting. No data dumps. No pipelines. Live API calls only.
 
 ![Status](https://img.shields.io/badge/Status-In%20Development-orange)
 ![Platform](https://img.shields.io/badge/Platform-GCP-4285F4?logo=google-cloud)
@@ -11,12 +11,12 @@
 
 ## 🧩 What is CIRA?
 
-CIRA goes beyond a Power BI dashboard. It combines a **visual cost dashboard** with an **AI chat assistant** — letting engineers ask billing questions in plain English and get real answers backed by live GCP data.
+CIRA goes beyond a static dashboard. It combines **visual cost intelligence** with an **embedded AI chat assistant** — letting engineers ask billing questions in plain English and get real answers backed by live GCP data.
 
 ### What CIRA can do that a dashboard can't:
 - 💬 *"Why did Prod Dataflow costs spike on Wednesday?"*
-- 🚨 *"Flag anything that looks unusual vs last month"*
-- 📈 *"We're 18 days into the month — will we exceed budget?"*
+- 🚨 *"Flag anything unusual vs last month"*
+- 📈 *"We're 18 days in — will we exceed budget this month?"*
 - 🔍 *"Which BigQuery datasets are the most expensive this quarter?"*
 - 📊 *"Compare Dev vs QA vs Prod spend this sprint"*
 
@@ -24,10 +24,32 @@ CIRA goes beyond a Power BI dashboard. It combines a **visual cost dashboard** w
 
 ## 🏗️ Architecture
 
-<img width="840" height="720" alt="ChatGPT Image Feb 25, 2026, 03_31_24 PM" src="https://github.com/user-attachments/assets/2801d630-aa6d-4992-a12b-02cc8de28020" />
+```
+GCP Projects (Dev / QA / Prod)
+        ↓
+Custom MCP Server (Python)
+├── get_total_spend(period)
+├── get_spend_by_project(project_id, period)
+├── get_spend_by_service(service, period)
+├── get_spend_by_environment(env, period)
+├── get_daily_cost_trend(project_id)
+├── detect_cost_anomalies(threshold)
+└── forecast_month_end_spend(project_id)
+        ↓
+Claude API (generates natural language answers)
+        ↓
+Streamlit Web App
+├── Dashboard
+│   ├── Total spend (overview card)
+│   ├── By environment (Dev / QA / Prod)
+│   ├── By GCP service (Dataflow, Composer, BigQuery, GCS...)
+│   ├── Cost trends over time
+│   └── Anomaly flags
+└── Embedded Chat Popup
+    (ask anything — answers grounded in live API data)
+```
 
-
-**No BigQuery exports. No data pipelines. MCP server makes live API calls to GCP Billing API per request.**
+**No BigQuery exports. No data pipelines. MCP server makes live GCP Billing API calls per request.**
 
 ---
 
@@ -38,8 +60,8 @@ CIRA goes beyond a Power BI dashboard. It combines a **visual cost dashboard** w
 | Cost Data Source | GCP Cloud Billing API (live calls) |
 | AI Protocol | Model Context Protocol (MCP) |
 | MCP Server | Python (custom built) |
-| Chat Interface | Claude Desktop (via MCP) |
-| Dashboard | Streamlit |
+| LLM | Claude API |
+| Dashboard + Chat | Streamlit |
 | Anomaly Detection | Statistical analysis over API data |
 | Forecasting | Time-series projection over billing trends |
 
@@ -48,13 +70,13 @@ CIRA goes beyond a Power BI dashboard. It combines a **visual cost dashboard** w
 ## 🤖 Three AI Capabilities
 
 ### 1. 💬 Conversational Cost Chat
-Connect CIRA to Claude Desktop via MCP. Ask any billing question in natural language — CIRA makes live API calls and returns real answers with numbers.
+Use the embedded chat popup in the Streamlit dashboard. Ask any billing question in natural language — CIRA makes live API calls and returns real answers with numbers.
 
 ### 2. 🚨 Anomaly Detection
-CIRA automatically compares current spend against historical averages using the Billing API. Flags anything that deviates significantly — by project, by service, or by resource.
+CIRA automatically compares current spend against historical averages via the Billing API. Flags anything that deviates significantly — by project, by service, or by resource.
 
 ### 3. 📈 Month-End Forecasting
-Given current daily burn rate, CIRA projects end-of-month spend and flags whether you're on track or heading for a budget overrun.
+Given the current daily burn rate, CIRA projects end-of-month spend and flags whether you're on track or heading for a budget overrun.
 
 ---
 
@@ -67,14 +89,13 @@ Given current daily burn rate, CIRA projects end-of-month spend and flags whethe
 - [ ] Anomaly detection logic
 - [ ] Forecasting module
 - [ ] Streamlit dashboard + embedded chat
-- [ ] Claude Desktop MCP config
 - [ ] Demo video
 
 ---
 
 ## 💡 Why MCP?
 
-Traditional cost dashboards are static — you see what someone decided to show you. MCP turns cost data into a **live, queryable AI tool**. The same MCP server powers both Claude Desktop (for engineers who prefer chat) and the Streamlit dashboard (for visual consumers) — one source of truth, two interfaces.
+Traditional cost dashboards are static — you see what someone decided to show you. MCP turns cost data into a **live, queryable AI tool**. The MCP server handles all data fetching via live API calls — the Streamlit app consumes it for both the visual dashboard and the chat popup. One source of truth, one unified interface.
 
 ---
 
@@ -87,6 +108,11 @@ Traditional cost dashboards are static — you see what someone decided to show 
 [![GitHub](https://img.shields.io/badge/GitHub-krishnaramadas-black?logo=github)](https://github.com/krishnaramadas)
 
 ---
+
+## 📄 License
+
+MIT License — see [LICENSE](LICENSE) for details.
+
 
 ## 📄 License
 
