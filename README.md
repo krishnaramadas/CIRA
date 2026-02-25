@@ -91,7 +91,3 @@ Traditional cost dashboards are static — you see what someone decided to show 
 
 MIT License — see [LICENSE](LICENSE) for details.
 
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
