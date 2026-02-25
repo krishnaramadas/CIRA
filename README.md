@@ -24,25 +24,8 @@ CIRA goes beyond a Power BI dashboard. It combines a **visual cost dashboard** w
 
 ## 🏗️ Architecture
 
-```
-GCP Projects (Dev / QA / Prod)
-        ↓
-Custom MCP Server (Python)
-├── get_total_spend(period)
-├── get_spend_by_project(project_id, period)
-├── get_spend_by_service(service, period)
-├── get_spend_by_environment(env, period)
-├── get_daily_cost_trend(project_id)
-├── detect_cost_anomalies(threshold)
-└── forecast_month_end_spend(project_id)
-        ↓
-┌─────────────────┬──────────────────┐
-│                 │                  │
-│  Claude Desktop │  Streamlit App   │
-│  (chat with     │  (dashboard +    │
-│   your costs)   │   embedded chat) │
-└─────────────────┴──────────────────┘
-```
+<img width="840" height="720" alt="ChatGPT Image Feb 25, 2026, 03_31_24 PM" src="https://github.com/user-attachments/assets/2801d630-aa6d-4992-a12b-02cc8de28020" />
+
 
 **No BigQuery exports. No data pipelines. MCP server makes live API calls to GCP Billing API per request.**
 
