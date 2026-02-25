@@ -24,30 +24,8 @@ CIRA goes beyond a static dashboard. It combines **visual cost intelligence** wi
 
 ## 🏗️ Architecture
 
-```
-GCP Projects (Dev / QA / Prod)
-        ↓
-Custom MCP Server (Python)
-├── get_total_spend(period)
-├── get_spend_by_project(project_id, period)
-├── get_spend_by_service(service, period)
-├── get_spend_by_environment(env, period)
-├── get_daily_cost_trend(project_id)
-├── detect_cost_anomalies(threshold)
-└── forecast_month_end_spend(project_id)
-        ↓
-Claude API (generates natural language answers)
-        ↓
-Streamlit Web App
-├── Dashboard
-│   ├── Total spend (overview card)
-│   ├── By environment (Dev / QA / Prod)
-│   ├── By GCP service (Dataflow, Composer, BigQuery, GCS...)
-│   ├── Cost trends over time
-│   └── Anomaly flags
-└── Embedded Chat Popup
-    (ask anything — answers grounded in live API data)
-```
+<img width="640" height="840" alt="ChatGPT Image Feb 25, 2026, 06_27_18 PM" src="https://github.com/user-attachments/assets/8e7d2057-6698-4417-848b-eaafa2f728ea" />
+
 
 **No BigQuery exports. No data pipelines. MCP server makes live GCP Billing API calls per request.**
 
